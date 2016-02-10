@@ -1,0 +1,6 @@
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'jbgutierrez/vim-babel'
+Plugin 'isRuslan/vim-es6'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'ternjs/tern_for_vim'

@@ -1,5 +1,5 @@
 " Load Bundles
-source ./bundles.vim
+source ~/dotvim/bundles.vim
 filetype plugin indent on
 syntax on
 
@@ -44,14 +44,19 @@ map <ScrollWheelUp> <C-Y>
 map <ScrollWheelDown> <C-E>
 
 " Bindings
-nmap <Tab> :CtrlPBuffer<CR>
+nmap <Tab> :CtrlPBuffer <bar> :NERDTreeClose<CR>
 map <C-h> :CtrlPLine<CR>
 imap <S-Tab> <Esc><<i
+nmap - :NERDTreeToggle<CR>
+nmap = *<CR>
 
 " Theming
 set background=dark
-colorscheme solarized
+colorscheme molokai
 hi Normal ctermbg=None
+hi Visual ctermbg=DarkBlue
+hi Pmenu ctermbg=DarkGray ctermfg=White
+hi PmenuSel ctermbg=Red
 
 " Airline
 let g:airline_theme="badwolf"
@@ -65,6 +70,14 @@ let g:airline_detect_modified=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+
+" Emmet
+let g:user_emmet_mode='a'
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,scss,less,eruby EmmetInstall
+autocmd FileType html,css,scss,less,eruby imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+autocmd BufNewFile,BufRead * if match(expand('%:t'),'\.jsx') != -1 | set filetype=javascript.jsx | endif
 
 " CtrlP
 let g:ctrlp_match_window='bottom,order:ttb,min:1,max:5,results:15'
@@ -88,3 +101,6 @@ inoremap <expr> <C-D-Space> "\<C-X>\<C-O>"
 " keep blocks selected when indenting
 vnoremap < <gv
 vnoremap > >gv
+
+let g:neocomplete#enable_at_startup=1
+let g:netrw_liststyle=3
