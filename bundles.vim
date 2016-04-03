@@ -20,6 +20,7 @@ Plugin 'shougo/neocomplete.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tomasr/molokai'
 Plugin 'scrooloose/nerdtree'
+Plugin 'mileszs/ack.vim'
 
 " Load language based plugins
 source ~/dotvim/languages/python.vim

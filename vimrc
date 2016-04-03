@@ -33,6 +33,8 @@ set laststatus=2
 set relativenumber
 set number
 
+set nowrap
+
 " Per Project Vimrc
 set exrc
 
@@ -44,11 +46,11 @@ map <ScrollWheelUp> <C-Y>
 map <ScrollWheelDown> <C-E>
 
 " Bindings
-nmap <Tab> :CtrlPBuffer <bar> :NERDTreeClose<CR>
-map <C-h> :CtrlPLine<CR>
+nmap <silent> <Tab> :CtrlPBuffer<CR>
+nmap <silent> <Enter> :CtrlPTag<CR>
+map <C-f> :CtrlPLine<CR>
 imap <S-Tab> <Esc><<i
 nmap - :NERDTreeToggle<CR>
-nmap = *<CR>
 
 " Theming
 set background=dark
@@ -59,7 +61,7 @@ hi Pmenu ctermbg=DarkGray ctermfg=White
 hi PmenuSel ctermbg=Red
 
 " Airline
-let g:airline_theme="badwolf"
+let g:airline_theme="term"
 let g:airline_powerline_fonts=0
 let g:airline_left_sep=""
 let g:airline_right_sep=""
@@ -70,6 +72,7 @@ let g:airline_detect_modified=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Emmet
 let g:user_emmet_mode='a'
@@ -102,5 +105,22 @@ inoremap <expr> <C-D-Space> "\<C-X>\<C-O>"
 vnoremap < <gv
 vnoremap > >gv
 
+" trailing whitespaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWritePre * :%s/\s\+$//e
+
+" italics
+highlight Comment cterm=italic
+highlight htmlArg cterm=italic
+
 let g:neocomplete#enable_at_startup=1
 let g:netrw_liststyle=3
+
+let g:syntastic_ignore_extensions='\c\v^([gx]?z|lzma|bz2|cr)$'
+set completeopt-=preview
+set clipboard=unnamed
+
+" autocmd BufWritePost *.js,*.jsx,*.rb,*.coffee,*.ts,*.css,*.scss,*.html silent! !ctags -R
+
