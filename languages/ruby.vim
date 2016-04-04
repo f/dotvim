@@ -1,2 +1,2 @@
-Plugin 'rake.vim'
-Plugin 'rails.vim'
+Plug 'rake.vim'
+Plug 'rails.vim'
