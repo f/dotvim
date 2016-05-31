@@ -35,8 +35,14 @@ set number
 
 set nowrap
 
+" Neovim
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
 " Per Project Vimrc
 set exrc
+
+let mapleader=","
 
 " Enable Mouse
 if has("mouse")
@@ -51,14 +57,17 @@ nmap <silent> <Enter> :CtrlPTag<CR>
 map <C-f> :CtrlPLine<CR>
 imap <S-Tab> <Esc><<i
 nmap - :NERDTreeToggle<CR>
+nmap \\ ``gg=<S-G>``
 
 " Theming
 set background=dark
-colorscheme molokai
+colorscheme gruvbox
+
 hi Normal ctermbg=None
 hi Visual ctermbg=DarkBlue
 hi Pmenu ctermbg=DarkGray ctermfg=White
 hi PmenuSel ctermbg=Red
+hi VertSplit ctermbg=None ctermfg=Black
 
 " Airline
 let g:airline_theme="term"
@@ -115,12 +124,39 @@ autocmd BufWritePre * :%s/\s\+$//e
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
 
-let g:neocomplete#enable_at_startup=1
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_fuzzy_completion = 1
 let g:netrw_liststyle=3
 
-let g:syntastic_ignore_extensions='\c\v^([gx]?z|lzma|bz2|cr)$'
+let g:syntastic_ignore_extensions='\c\v^([gx]?z|lzma|bz2)$'
 set completeopt-=preview
 set clipboard=unnamed
 
 " autocmd BufWritePost *.js,*.jsx,*.rb,*.coffee,*.ts,*.css,*.scss,*.html silent! !ctags -R
 
+function! s:incsearch_config(...) abort
+  return incsearch#util#deepextend(deepcopy({
+        \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+        \   'keymap': {
+        \     "\<CR>": '<Over>(easymotion)'
+        \   },
+        \   'is_expr': 0
+        \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
+noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+
+function! s:config_easyfuzzymotion(...) abort
+  return extend(copy({
+        \   'converters': [incsearch#config#fuzzyword#converter()],
+        \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+        \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+        \   'is_expr': 0,
+        \   'is_stay': 1
+        \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
